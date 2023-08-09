@@ -32,12 +32,13 @@ export default async function credentialedProxyHandler(req, res, map) {
         "authentik",
         "cloudflared",
         "ghostfolio",
+        "mealie",
         "tailscale",
         "truenas",
         "pterodactyl",
-        ].includes(widget.type))
-        {
-          headers.Authorization = `Bearer ${widget.key}`;
+      ].includes(widget.type))
+      {
+        headers.Authorization = `Bearer ${widget.key}`;
       } else if (widget.type === "proxmox") {
         headers.Authorization = `PVEAPIToken=${widget.username}=${widget.password}`;
       } else if (widget.type === "proxmoxbackupserver") {
@@ -90,7 +91,7 @@ export default async function credentialedProxyHandler(req, res, map) {
       if (status >= 400) {
         logger.error("HTTP Error %d calling %s", status, url.toString());
       }
-      
+
       if (status === 200) {
         if (!validateWidgetData(widget, endpoint, resultData)) {
           return res.status(500).json({error: {message: "Invalid data", url: sanitizeErrorURL(url), data: resultData}});
